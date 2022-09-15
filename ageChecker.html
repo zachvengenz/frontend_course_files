@@ -6,7 +6,7 @@
   </head>
   <body>
     <!-- We will put our React component inside this div. -->
-    <div id="msg"></div>
+    
     <div id="root"></div>
 
 
@@ -19,10 +19,8 @@
     <!-- Load our React component. -->
     <script type="text/babel">
         function CheckAge() {
-            const [person, setPerson] = React.useState({
-                name: "",
-                age: 0
-            });
+            const [person, setPerson] = React.useState({name: "", age: 0});
+            const [hello, setHello] = React.useState("");
 
             const inputChanged = (e) => {
                 setPerson({...person, [event.target.name]: event.target.value})
@@ -31,14 +29,15 @@
             const submit = (e) => {
                 event.preventDefault();
                 if (person.age < 18) {
-                    document.getElementById("msg").innerHTML = "You are too young";
+                    setHello("You are too young!");
                 } else {
-                    document.getElementById("msg").innerHTML = "Hello " + person.name;
+                    setHello("Hello " + person.name);
                 }
             }
 
             return (
                 <div>
+                    <p>{hello}</p>
                     <form onSubmit={submit}>
                         <p>Name:&nbsp;
                         <input
