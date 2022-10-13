@@ -3,6 +3,12 @@ import { AgGridReact } from "ag-grid-react";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import Button from "@mui/material/Button";
+import { TextField } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+import Snackbar from "@mui/material/Snackbar";
 
 // code formatted with Prettier
 
@@ -13,6 +19,7 @@ function Todolist() {
     date: "",
     priority: "",
   });
+  const [open, setOpen] = useState(false);
   const gridRef = useRef();
 
   const [columnDefs] = useState([
@@ -48,6 +55,7 @@ function Todolist() {
             index !== gridRef.current.getSelectedNodes()[0].childIndex
         )
       );
+      setOpen(true);
     } else {
       alert("No rows selected");
     }
@@ -59,33 +67,54 @@ function Todolist() {
 
   return (
     <div>
-      <header>List of things to do</header>
-      <form onSubmit={addTodo}>
+      <h2>Todo list</h2>
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        justifyContent="center"
+      >
         Description:&nbsp;
-        <input
-          type="text"
+        <TextField
+          label="Todo"
           name="description"
           value={todo.description}
           onChange={inputChanged}
         />
         &nbsp; Date:&nbsp;
-        <input
-          type="date"
+        <TextField
+          label="Date"
           name="date"
           value={todo.date}
           onChange={inputChanged}
         />
         &nbsp; Priority:&nbsp;
-        <input
-          type="text"
+        <TextField
+          label="Priority"
           name="priority"
           value={todo.priority}
           onChange={inputChanged}
         />
         &nbsp;
-        <input type="submit" value="Add"></input>
-        <input type="button" value="Delete" onClick={deleteTodo}></input>
-      </form>
+        <Button
+          type="button"
+          variant="contained"
+          color="success"
+          onClick={addTodo}
+          endIcon={<AddIcon />}
+        >
+          Add
+        </Button>
+        <Button
+          type="button"
+          variant="contained"
+          color="error"
+          onClick={deleteTodo}
+          endIcon={<DeleteIcon />}
+        >
+          Delete
+        </Button>
+      </Stack>
       <div
         className="ag-theme-material"
         style={{ margin: "auto", width: "50%", height: 600 }}
@@ -99,6 +128,12 @@ function Todolist() {
           animateRows={true}
         />
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        message="Todo deleted"
+        onClose={() => setOpen(false)}
+      />
     </div>
   );
 }
