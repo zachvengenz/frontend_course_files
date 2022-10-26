@@ -1,5 +1,5 @@
 import "./App.css";
-import Todolist from "./components/Todolist";
+import Tabz from "./components/Tabz";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -12,7 +12,7 @@ function App() {
           <Typography variant="h6">List of things to do</Typography>
         </Toolbar>
       </AppBar>
-      <Todolist />
+      <Tabz />
     </div>
   );
 }

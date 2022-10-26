@@ -3,6 +3,9 @@ import { AgGridReact } from "ag-grid-react";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Button from "@mui/material/Button";
 import { TextField } from "@mui/material";
 import Stack from "@mui/material/Stack";
@@ -16,7 +19,7 @@ function Todolist() {
   const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState({
     description: "",
-    date: "",
+    date: null,
     priority: "",
   });
   const [open, setOpen] = useState(false);
@@ -65,56 +68,63 @@ function Todolist() {
     setTodo({ ...todo, [e.target.name]: e.target.value });
   };
 
+  const handleChange = (newValue) => {
+    setTodo({ ...todo, date: newValue.format("ll") });
+  };
+
   return (
     <div>
-      <h2>Todo list</h2>
-      <Stack
-        direction="row"
-        spacing={2}
-        alignItems="center"
-        justifyContent="center"
-      >
-        Description:&nbsp;
-        <TextField
-          label="Todo"
-          name="description"
-          value={todo.description}
-          onChange={inputChanged}
-        />
-        &nbsp; Date:&nbsp;
-        <TextField
-          label="Date"
-          name="date"
-          value={todo.date}
-          onChange={inputChanged}
-        />
-        &nbsp; Priority:&nbsp;
-        <TextField
-          label="Priority"
-          name="priority"
-          value={todo.priority}
-          onChange={inputChanged}
-        />
-        &nbsp;
-        <Button
-          type="button"
-          variant="contained"
-          color="success"
-          onClick={addTodo}
-          endIcon={<AddIcon />}
+      <LocalizationProvider dateAdapter={AdapterMoment}>
+        <h2>Todo list</h2>
+        <Stack
+          direction="row"
+          spacing={2}
+          alignItems="center"
+          justifyContent="center"
         >
-          Add
-        </Button>
-        <Button
-          type="button"
-          variant="contained"
-          color="error"
-          onClick={deleteTodo}
-          endIcon={<DeleteIcon />}
-        >
-          Delete
-        </Button>
-      </Stack>
+          Description:&nbsp;
+          <TextField
+            label="Todo"
+            name="description"
+            value={todo.description}
+            onChange={inputChanged}
+          />
+          &nbsp; Date:&nbsp;
+          <DesktopDatePicker
+            label="dd/mm/yyyy"
+            inputFormat="DD/MM/YYYY"
+            value={todo.date}
+            onChange={handleChange}
+            renderInput={(date) => <TextField {...date} />}
+          />
+          &nbsp; Priority:&nbsp;
+          <TextField
+            label="Priority"
+            name="priority"
+            value={todo.priority}
+            onChange={inputChanged}
+          />
+          &nbsp;
+          <Button
+            type="button"
+            variant="contained"
+            color="success"
+            onClick={addTodo}
+            endIcon={<AddIcon />}
+          >
+            Add
+          </Button>
+          <Button
+            type="button"
+            variant="contained"
+            color="error"
+            onClick={deleteTodo}
+            endIcon={<DeleteIcon />}
+          >
+            Delete
+          </Button>
+        </Stack>
+      </LocalizationProvider>
       <div
         className="ag-theme-material"
         style={{ margin: "auto", width: "50%", height: 600 }}
@@ -130,7 +140,7 @@ function Todolist() {
       </div>
       <Snackbar
         open={open}
-        autoHideDuration={3000}
+        autoHideDuration={5000}
         message="Todo deleted"
         onClose={() => setOpen(false)}
       />
