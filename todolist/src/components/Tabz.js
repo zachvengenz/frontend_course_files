@@ -16,6 +16,7 @@ function Tabz() {
       <Tabs value={value} onChange={handleChange}>
         <Tab value="one" label="Home" />
         <Tab value="two" label="Todos" />
+        <Tab value="three" label="Info" />
       </Tabs>
       {value === "one" && (
         <div>
@@ -27,6 +28,14 @@ function Tabz() {
         <div>
           {" "}
           <Todolist />{" "}
+        </div>
+      )}
+      {value === "three" && (
+        <div>
+          <h2>
+            When assigning Todo priority level<br></br>
+            please use "low", "mid" or "high"
+          </h2>
         </div>
       )}
     </div>

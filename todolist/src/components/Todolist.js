@@ -31,9 +31,15 @@ function Todolist() {
       sortable: true,
       filter: true,
       floatingFilter: true,
-      cellStyle: { color: "white", background: "black" },
+      cellStyle: { color: "black", background: "white" },
     },
-    { field: "date", sortable: true, filter: true, floatingFilter: true },
+    {
+      field: "date",
+      sortable: true,
+      filter: true,
+      floatingFilter: true,
+      cellStyle: { color: "black", background: "lightgray" },
+    },
     {
       field: "priority",
       sortable: true,
@@ -41,8 +47,10 @@ function Todolist() {
       floatingFilter: true,
       cellStyle: (params) =>
         params.value.toLowerCase() === "high"
-          ? { color: "red", background: "black" }
-          : { color: "white", background: "black" },
+          ? { color: "black", background: "red" }
+          : params.value.toLowerCase() === "mid"
+          ? { color: "black", background: "yellow" }
+          : { color: "black", background: "white" },
     },
   ]);
 
