@@ -34,3 +34,18 @@ test("todo not in document", () => {
   const tablecell = screen.queryByText(/random test/i);
   expect(tablecell).not.toBeInTheDocument();
 });
+
+// clear todos testi
+test("clear todos", () => {
+  render(<App />);
+  const desc = screen.getByPlaceholderText("Description");
+  fireEvent.change(desc, { target: { value: "random" } });
+  const date = screen.getByPlaceholderText("Date");
+  fireEvent.change(date, { target: { value: "29.01.2021" } });
+  const addButton = screen.getByText("Add");
+  fireEvent.click(addButton);
+  const clearButton = screen.getByText("Clear");
+  fireEvent.click(clearButton);
+  const tablecell = screen.queryByText(/random/i);
+  expect(tablecell).not.toBeInTheDocument();
+});
